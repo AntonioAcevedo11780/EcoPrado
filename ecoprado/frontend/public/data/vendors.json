@@ -1,0 +1,26 @@
+[
+  {
+    "id": "cafe-sostenible",
+    "name": "Café Sostenible",
+    "location": "Centro • Xochitepec",
+    "avatar": "https://images.unsplash.com/photo-1542838132-92c53300491e?w=300&h=300&fit=crop",
+    "tags": ["acepta-tokens", "local"],
+    "badges": ["Residuo cero"]
+  },
+  {
+    "id": "molino-verde",
+    "name": "Panadería El Molino Verde",
+    "location": "Mercado local",
+    "avatar": "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=300&h=300&fit=crop",
+    "tags": ["organico", "local", "acepta-tokens"],
+    "badges": ["Ingredientes orgánicos"]
+  },
+  {
+    "id": "taqueria-la-verde",
+    "name": "Taquería La Verde",
+    "location": "Zona turística",
+    "avatar": "https://images.unsplash.com/photo-1556911261-6bd341186b56?w=300&h=300&fit=crop",
+    "tags": ["acepta-tokens"],
+    "badges": ["50% tokens", "Verificado"]
+  }
+]

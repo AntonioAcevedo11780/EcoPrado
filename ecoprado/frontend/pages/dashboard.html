@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - EcoPrado</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/12.0.1/stellar-sdk.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="../public/css/dashboard.css">
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="d-flex align-items-center gap-2">
+                <img src="../public/images/ecoprado-logo.png" alt="EcoPrado" class="sidebar-logo">
+                <div>
+                    <div class="fw-bold">EcoPrado</div>
+                    <small class="opacity-75">Dashboard</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="sidebar-nav">
+            <a href="../pages/dashboard.html" class="nav-item-custom active" data-route="dashboard">
+                <i class="bi bi-house-door"></i>
+                <span>Inicio</span>
+            </a>
+            <a href="#estadisticas" class="nav-item-custom" data-route="estadisticas">
+                <i class="bi bi-graph-up"></i>
+                <span>Estadísticas</span>
+            </a>
+            <a href="#report" class="nav-item-custom" data-route="report" data-bs-toggle="modal" data-bs-target="#reportModal">
+                <i class="bi bi-plus-circle"></i>
+                <span>Reportar Acción</span>
+            </a>
+
+            <a href="../pages/marketplace.html" class="nav-item-custom" data-route="marketplace">
+                <i class="bi bi-shop"></i>
+                <span>Marketplace</span>
+            </a>
+            <a href="#perfil" class="nav-item-custom" data-route="perfil">
+                <i class="bi bi-person"></i>
+                <span>Perfil</span>
+            </a>
+        </div>
+        
+        <div class="sidebar-footer">
+            <div class="d-flex align-items-center gap-2">
+                <img src="https://ui-avatars.com/api/?name=Usuario&background=4ADE80&color=0F2922" 
+                     alt="Avatar" class="avatar">
+                <div>
+                    <div class="fw-medium" id="username">Usuario</div>
+                    <small class="opacity-75" id="user-role">#ciudadano</small>
+                    <div class="verification-status" id="verification-status">
+                        <span class="badge bg-warning" id="verification-badge">
+                            <i class="bi bi-exclamation-triangle me-1"></i>Sin verificar
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-outline-primary btn-sm mt-2 w-100" data-bs-toggle="modal" data-bs-target="#verificationModal">
+                <i class="bi bi-shield-check me-1"></i>Verificar Identidad
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <!-- HEADER -->
+        <div class="header-custom">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h4 class="mb-0">¡Bienvenido de vuelta!</h4>
+                    <small class="text-secondary">Aquí tienes un resumen de tu impacto ambiental</small>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-secondary btn-sm" id="view-key">
+                        <i class="bi bi-key me-1"></i>
+                        Ver Wallet
+                    </button>
+                    <button class="btn btn-ecoprado btn-sm" data-bs-toggle="modal" data-bs-target="#reportModal">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        Reportar Acción
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="p-4">
+            <!-- MÉTRICAS PRINCIPALES -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <div class="card-metric">
+                        <div class="metric-label">Balance Actual</div>
+                        <div class="metric-value" id="user-balance">0.00</div>
+                        <div class="metric-unit">PRADONSITOS</div>
+                        <div class="metric-change positive">
+                            <i class="bi bi-arrow-up"></i>
+                            <span id="balance-status">Cargando...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card-metric">
+                        <div class="metric-label">CO₂ Evitado</div>
+                        <div class="metric-value" id="co2-saved">0.0</div>
+                        <div class="metric-unit">kg</div>
+                        <div class="metric-change positive">
+                            <i class="bi bi-leaf"></i>
+                            <span>Impacto positivo</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card-metric">
+                        <div class="metric-label">Acciones Completadas</div>
+                        <div class="metric-value" id="total-actions">0</div>
+                        <div class="metric-unit">acciones</div>
+                        <div class="metric-change positive">
+                            <i class="bi bi-check-circle"></i>
+                            <span>Este mes</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card-metric">
+                        <div class="metric-label">Ranking</div>
+                        <div class="metric-value">#1</div>
+                        <div class="metric-unit">en tu zona</div>
+                        <div class="metric-change positive">
+                            <i class="bi bi-trophy"></i>
+                            <span>¡Excelente!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GRÁFICO Y TRANSACCIONES -->
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="chart-container">
+                        <h5 class="mb-3">Tu Progreso Semanal</h5>
+                        <canvas id="progressChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="chart-container">
+                        <h5 class="mb-3">Transacciones Recientes</h5>
+                        <div id="transactions-list">
+                            <p class="text-secondary text-center py-4">Cargando transacciones...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ESTADÍSTICAS (SECCIÓN SIMPLE) -->
+            <div id="estadisticas" class="row g-4 mt-1">
+                <div class="col-md-4">
+                    <div class="card-metric">
+                        <div class="metric-label">Promedio diario</div>
+                        <div class="metric-value" id="avg-daily">0</div>
+                        <div class="metric-unit">PRADONSITOS</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-metric">
+                        <div class="metric-label">Top acción del mes</div>
+                        <div class="metric-value" id="top-action">—</div>
+                        <div class="metric-unit">tipo</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-metric">
+                        <div class="metric-label">CO₂ total evitado</div>
+                        <div class="metric-value" id="total-co2">0.0</div>
+                        <div class="metric-unit">kg</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PERFIL (SECCIÓN SIMPLE) -->
+            <div id="perfil" class="row g-4 mt-1">
+                <div class="col-md-6">
+                    <div class="card-metric">
+                        <div class="metric-label">Usuario</div>
+                        <div class="metric-value" id="profile-name">—</div>
+                        <div class="metric-unit" id="profile-role">—</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-metric">
+                        <div class="metric-label">CURP/RFC</div>
+                        <div class="metric-value" id="profile-id">—</div>
+                        <div class="metric-unit">estatus: <span id="profile-verif">Sin verificar</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL REPORTAR ACCIÓN -->
+    <div class="modal fade" id="reportModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reportar Acción Sostenible</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="reportForm">
+                        <div class="mb-3">
+                            <label class="form-label">Tipo de Acción</label>
+                            <select class="form-control" id="actionType" required>
+                                <option value="">Selecciona una acción</option>
+                                <option value="reciclaje">Reciclaje</option>
+                                <option value="transporte_verde">Transporte Verde</option>
+                                <option value="ahorro_agua">Ahorro de Agua</option>
+                                <option value="agricultura_sostenible">Agricultura Sostenible</option>
+                                <option value="educacion_ambiental">Educación Ambiental</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Descripción</label>
+                            <textarea class="form-control" id="actionDescription" rows="3" 
+                                      placeholder="Describe qué hiciste..." required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#co2CalculatorModal">
+                                <i class="bi bi-calculator me-1"></i>Calcular CO₂ (opcional)
+                            </button>
+                        </div>
+                        <!-- Evidencia opcional deshabilitada por ahora para mantener compatibilidad backend -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary" id="submitAction">
+                                <i class="bi bi-check-circle me-2"></i>
+                                Enviar y Recibir Recompensa
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CALCULADORA CO2 -->
+    <div class="modal fade" id="co2CalculatorModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-calculator me-2"></i>Calculadora de Huella de Carbono</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="list-group" id="calculator-tabs">
+                                <a href="#" class="list-group-item list-group-item-action active" data-type="ciudadano">
+                                    <i class="bi bi-person me-2"></i>Ciudadano
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action" data-type="agricultor">
+                                    <i class="bi bi-tree me-2"></i>Agricultor
+                                </a>
+                                <a href="#" class="list-group-item list-group-item-action" data-type="negocio">
+                                    <i class="bi bi-shop me-2"></i>Negocio
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <!-- FORMULARIO CIUDADANO -->
+                            <div id="ciudadano-form" class="calculator-form">
+                                <h6><i class="bi bi-house-door me-2"></i>Consumo Doméstico</h6>
+                                <div class="mb-3">
+                                    <label class="form-label">Consumo de Electricidad (kWh/mes)</label>
+                                    <input type="number" class="form-control" id="electricidad" placeholder="300">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Consumo de Gas (m³/mes)</label>
+                                    <input type="number" class="form-control" id="gas" placeholder="50">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Consumo de Agua (m³/mes)</label>
+                                    <input type="number" class="form-control" id="agua" placeholder="10">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Kilómetros recorridos en auto (km/mes)</label>
+                                    <input type="number" class="form-control" id="kilometros" placeholder="500">
+                                </div>
+                            </div>
+
+                            <!-- FORMULARIO AGRICULTOR -->
+                            <div id="agricultor-form" class="calculator-form" style="display: none;">
+                                <h6><i class="bi bi-tree me-2"></i>Actividad Agrícola</h6>
+                                <div class="mb-3">
+                                    <label class="form-label">Hectáreas cultivadas</label>
+                                    <input type="number" class="form-control" id="hectareas" placeholder="5">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Tipo de cultivo</label>
+                                    <select class="form-control" id="tipo-cultivo">
+                                        <option value="maiz">Maíz</option>
+                                        <option value="frijol">Frijol</option>
+                                        <option value="tomate">Tomate</option>
+                                        <option value="chile">Chile</option>
+                                        <option value="otros">Otros</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Uso de fertilizantes químicos (kg/mes)</label>
+                                    <input type="number" class="form-control" id="fertilizantes" placeholder="100">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Uso de pesticidas (kg/mes)</label>
+                                    <input type="number" class="form-control" id="pesticidas" placeholder="20">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Maquinaria agrícola (horas/mes)</label>
+                                    <input type="number" class="form-control" id="maquinaria" placeholder="40">
+                                </div>
+                            </div>
+
+                            <!-- FORMULARIO NEGOCIO -->
+                            <div id="negocio-form" class="calculator-form" style="display: none;">
+                                <h6><i class="bi bi-shop me-2"></i>Actividad Comercial</h6>
+                                <div class="mb-3">
+                                    <label class="form-label">Consumo de Electricidad (kWh/mes)</label>
+                                    <input type="number" class="form-control" id="electricidad-negocio" placeholder="1000">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Número de empleados</label>
+                                    <input type="number" class="form-control" id="empleados" placeholder="5">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Tipo de negocio</label>
+                                    <select class="form-control" id="tipo-negocio">
+                                        <option value="restaurante">Restaurante</option>
+                                        <option value="tienda">Tienda</option>
+                                        <option value="oficina">Oficina</option>
+                                        <option value="fabrica">Fábrica</option>
+                                        <option value="otros">Otros</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Transporte de mercancías (km/mes)</label>
+                                    <input type="number" class="form-control" id="transporte-negocio" placeholder="200">
+                                </div>
+                            </div>
+
+                            <div class="d-grid mt-4">
+                                <button type="button" class="btn btn-primary" id="calculateCO2">
+                                    <i class="bi bi-calculator me-2"></i>
+                                    Calcular Huella de Carbono
+                                </button>
+                            </div>
+
+                            <!-- RESULTADO -->
+                            <div id="co2-result" class="mt-4" style="display: none;">
+                                <div class="alert alert-success">
+                                    <h6><i class="bi bi-leaf me-2"></i>Tu Huella de Carbono</h6>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <strong id="co2-total">0.0</strong> kg CO₂/mes
+                                        </div>
+                                        <div class="col-6">
+                                            <strong id="co2-equivalent">0</strong> árboles necesarios
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="alert alert-info">
+                                    <h6><i class="bi bi-lightbulb me-2"></i>Recomendaciones</h6>
+                                    <ul id="recommendations" class="mb-0">
+                                        <!-- Se llenará dinámicamente -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL VERIFICACIÓN DE IDENTIDAD -->
+    <div class="modal fade" id="verificationModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-shield-check me-2"></i>Verificación de Identidad</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <strong>¿Por qué verificar mi identidad?</strong><br>
+                        La verificación te permite acceder a más recompensas y participar en programas especiales del municipio.
+                    </div>
+
+                    <form id="verificationForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Tipo de Identificación</label>
+                                    <select class="form-control" id="idType" required>
+                                        <option value="">Selecciona una opción</option>
+                                        <option value="curp">CURP (Ciudadanos)</option>
+                                        <option value="rfc">RFC (Negocios/Agricultores)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Tipo de Usuario</label>
+                                    <select class="form-control" id="userType" required>
+                                        <option value="">Selecciona tu tipo</option>
+                                        <option value="ciudadano">Ciudadano</option>
+                                        <option value="agricultor">Agricultor</option>
+                                        <option value="negocio">Negocio Local</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" id="idLabel">CURP / RFC</label>
+                            <input type="text" class="form-control" id="idNumber" placeholder="Ingresa tu CURP o RFC" required>
+                            <div class="form-text">Ejemplo: CURP: ABCD123456HDFXXX01 | RFC: ABCD123456XXX</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Nombre Completo</label>
+                            <input type="text" class="form-control" id="fullName" placeholder="Nombre completo como aparece en tu identificación" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Municipio</label>
+                            <select class="form-control" id="municipio" required>
+                                <option value="">Selecciona tu municipio</option>
+                                <option value="xochitepec">Xochitepec</option>
+                                <option value="cuernavaca">Cuernavaca</option>
+                                <option value="temixco">Temixco</option>
+                                <option value="jiutepec">Jiutepec</option>
+                                <option value="otros">Otros</option>
+                            </select>
+                        </div>
+
+                        <!-- Campos específicos para agricultores -->
+                        <div id="agricultor-fields" style="display: none;">
+                            <h6 class="mt-4 mb-3"><i class="bi bi-tree me-2"></i>Información Agrícola</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Registro en Padrón de Productores</label>
+                                        <input type="text" class="form-control" id="padronProductores" placeholder="Número de registro (opcional)">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Hectáreas cultivadas</label>
+                                        <input type="number" class="form-control" id="hectareasVerificacion" placeholder="Ej: 5">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Campos específicos para negocios -->
+                        <div id="negocio-fields" style="display: none;">
+                            <h6 class="mt-4 mb-3"><i class="bi bi-shop me-2"></i>Información Comercial</h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Nombre del Negocio</label>
+                                        <input type="text" class="form-control" id="nombreNegocio" placeholder="Nombre comercial">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Licencia Municipal</label>
+                                        <input type="text" class="form-control" id="licenciaMunicipal" placeholder="Número de licencia">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <i class="bi bi-shield-exclamation me-2"></i>
+                            <strong>Importante:</strong> Esta información será verificada con las bases de datos gubernamentales correspondientes. 
+                            Solo usuarios verificados pueden recibir recompensas especiales.
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary" id="submitVerification">
+                                <i class="bi bi-shield-check me-2"></i>
+                                Enviar para Verificación
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../public/js/sidebar.js"></script>
+    <script src="../public/js/dashboard.js"></script>
+</body>
+</html>

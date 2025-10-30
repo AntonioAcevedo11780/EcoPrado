@@ -1,0 +1,19 @@
+[package]
+name = "ecoprado-contracts"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+soroban-sdk = "0.9.0"
+
+[[bin]]
+name = "pradonsitos_token"
+path = "src/pradonsitos_token.rs"
+
+[[bin]]
+name = "rewards_contract"
+path = "src/rewards_contract.rs"
+
+[[bin]]
+name = "verification_contract"
+path = "src/verification_contract.rs"

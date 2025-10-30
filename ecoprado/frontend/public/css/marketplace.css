@@ -1,0 +1,304 @@
+:root {
+    --ecoprado-dark: #0F2922;
+    --ecoprado-dark-hover: #1A3D34;
+    --ecoprado-accent: #2EAF4A;
+    --ecoprado-success: #22C55E;
+    --bg-main: #F5F7FA;
+    --text-primary: #1F2937;
+    --text-secondary: #6B7280;
+    --border-color: #E5E7EB;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-main);
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 240px;
+    background-color: var(--ecoprado-dark);
+    color: white;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    background-color: var(--ecoprado-accent);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: var(--ecoprado-dark);
+    font-size: 1.25rem;
+}
+
+.sidebar-logo {
+    height: 28px;
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 2rem 1rem;
+    overflow-y: auto;
+}
+
+.nav-item-custom {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.nav-item-custom:hover,
+.nav-item-custom.active {
+    background-color: var(--ecoprado-dark-hover);
+    color: white;
+}
+
+.sidebar-footer {
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.main-content {
+    margin-left: 240px;
+    min-height: 100vh;
+}
+
+.header-custom {
+    background-color: white;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+/* Banner superior */
+.market-banner {
+    margin: 1rem 0 0.5rem;
+}
+
+.market-banner img {
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+}
+
+.product-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+    height: 100%;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.product-info {
+    padding: 1.5rem;
+}
+
+.product-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.product-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ecoprado-accent);
+    margin-bottom: 1rem;
+}
+
+.product-price-unit {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.btn-ecoprado {
+    background-color: var(--ecoprado-dark);
+    border: none;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-ecoprado:hover {
+    background-color: var(--ecoprado-dark-hover);
+    color: white;
+}
+
+.btn-outline-ecoprado {
+    border: 2px solid var(--ecoprado-accent);
+    color: var(--ecoprado-accent);
+    background: transparent;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-outline-ecoprado:hover {
+    background-color: var(--ecoprado-accent);
+    color: var(--ecoprado-dark);
+}
+
+.category-filter {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.25rem;
+}
+
+.filter-btn {
+    border: 2px solid var(--border-color);
+    background: white;
+    color: var(--text-primary);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.2s;
+}
+
+.filter-btn .filter-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    border-color: var(--ecoprado-accent);
+    background-color: rgba(74, 222, 128, 0.1);
+    color: var(--ecoprado-dark);
+}
+
+.balance-card {
+    background: linear-gradient(135deg, var(--ecoprado-dark) 0%, var(--ecoprado-dark-hover) 100%);
+    color: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.balance-amount {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.balance-label {
+    opacity: 0.8;
+    font-size: 0.875rem;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+/* Modal styles */
+.modal-content {
+    border-radius: 12px;
+    border: none;
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.5rem;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s;
+    }
+    
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+    
+    .product-card {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Gran Prado - Vendedores */
+.gran-prado .vendor-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.vendor-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.vendor-name { font-weight: 700; color: var(--text-primary); }
+.vendor-meta { color: var(--text-secondary); font-size: 0.875rem; }
+.mini-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: #ECFDF5;
+    color: #065F46;
+    border: 1px solid #A7F3D0;
+    border-radius: 999px;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-right: 0.25rem;
+}

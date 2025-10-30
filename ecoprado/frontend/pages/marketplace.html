@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace - EcoPrado</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="../public/css/marketplace.css">
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <div id="app-sidebar"></div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <!-- HEADER -->
+        <div class="header-custom">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h4 class="mb-0">Marketplace Sostenible</h4>
+                    <small class="text-secondary">Canjea tus Pradonsitos por productos y servicios locales</small>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-secondary btn-sm" id="reload-balance">
+                        <i class="bi bi-arrow-clockwise me-1"></i>
+                        Recargar Balance
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="p-4">
+            
+
+            <!-- BALANCE CARD -->
+            <div class="balance-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="balance-amount" id="user-balance">0.00</div>
+                        <div class="balance-label">PRADONSITOS disponibles</div>
+                    </div>
+                    <div class="text-end">
+                        <i class="bi bi-wallet2" style="font-size: 2rem; opacity: 0.7;"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FILTROS -->
+            <div class="category-filter">
+                <h6 class="mb-3">Categorías • Gran Prado</h6>
+                <div class="d-flex flex-wrap">
+                    <button class="filter-btn active" data-category="all">Todas</button>
+                    <button class="filter-btn" data-category="alimentos"><img src="../public/images/icons/food.svg" class="filter-icon" alt="Alimentos"> Alimentos</button>
+                    <button class="filter-btn" data-category="educacion"><img src="../public/images/icons/education.svg" class="filter-icon" alt="Educación"> Educación</button>
+                    <button class="filter-btn" data-category="turismo"><img src="../public/images/icons/tourism.svg" class="filter-icon" alt="Turismo"> Turismo</button>
+                    <button class="filter-btn" data-category="jardineria"><img src="../public/images/icons/gardening.svg" class="filter-icon" alt="Jardinería"> Jardinería</button>
+                    <button class="filter-btn" data-category="transporte"><img src="../public/images/icons/transport.svg" class="filter-icon" alt="Transporte"> Transporte</button>
+                </div>
+            </div>
+
+            <!-- PRODUCTOS -->
+            <div class="row" id="products-container">
+                <!-- Los productos se cargarán dinámicamente -->
+            </div>
+
+            
+        </div>
+    </div>
+
+    <!-- MODAL PRODUCTO -->
+    <div class="modal fade" id="productModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-product-title">Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img id="modal-product-image" src="" alt="Producto" class="img-fluid rounded">
+                        </div>
+                        <div class="col-md-6">
+                            <h4 id="modal-product-price" class="text-success mb-3">0 PRADONSITOS</h4>
+                            <p id="modal-product-description" class="text-muted mb-4">Descripción del producto</p>
+                            <div class="d-grid">
+                                <button class="btn btn-ecoprado btn-lg" id="modal-buy-btn">
+                                    <i class="bi bi-cart me-2"></i>
+                                    Comprar Ahora
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../public/js/sidebar.js"></script>
+    <script src="../public/js/marketplace.js"></script>
+</body>
+</html>
